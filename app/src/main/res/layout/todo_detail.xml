@@ -1,0 +1,82 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/todo_detail"
+    style="?android:attr/textAppearanceLarge"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="osmi.todo.TodoDetailFragment"
+    android:orientation="vertical">
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:orientation="vertical"-->
+
+    <TextView
+        android:id="@+id/todoNameLabel"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/todoNameLabelText" />
+
+    <EditText
+        android:id="@+id/todoNameEdit"
+        android:inputType="text"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/todoDescLabel"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/todoDescLabelText" />
+
+    <EditText
+        android:id="@+id/todoDescEdit"
+        android:inputType="text"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/todoSolvedLabel"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/todoSolvedLabelText" />
+
+    <CheckBox
+        android:id="@+id/todoSolvedCheck"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/todoFavLabel"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/todoFavLabelText" />
+
+    <CheckBox
+        android:id="@+id/todoFavCheck"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+    <TextView
+        android:id="@+id/todoFinalDateLabel"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:text="@string/todoFinalDateLabelText" />
+
+    <CalendarView
+        android:id="@+id/todoFinalDateCalendar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
+</LinearLayout>
+
+<!--<TextView xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:id="@+id/todo_detail"-->
+    <!--style="?android:attr/textAppearanceLarge"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:padding="16dp"-->
+    <!--android:textIsSelectable="true"-->
+    <!--tools:context="osmi.todo.TodoDetailFragment">-->
+<!--</TextView>-->

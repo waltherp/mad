@@ -24,6 +24,7 @@ import osmi.todo.helper.TodoPojo;
 import osmi.todo.helper.TodoPojoOutPut;
 import osmi.todo.helper.TodoPojoParams;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -132,7 +133,11 @@ public class TodoListActivity extends AppCompatActivity {
         public void onBindViewHolder(final ViewHolder holder, final int position) {
             holder.todoEntity = todos.get(position);
             holder.nameTextView.setText(todos.get(position).getName());
-            holder.finalDateTextView.setText(todos.get(position).getFinalDate().toString());
+            Date finalDate = todos.get(position).getFinalDate();
+            if(finalDate.getTime() < System.currentTimeMillis()) {
+                holder.nameTextView.setBackgroundColor(getResources().getColor(R.color.colorExpired));
+            }
+            holder.finalDateTextView.setText(finalDate.toString());
             holder.solvedCheckBox.setChecked(todos.get(position).isSolved());
             holder.favCheckBox.setChecked(todos.get(position).isFav());
 

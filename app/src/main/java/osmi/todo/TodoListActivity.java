@@ -10,10 +10,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.support.design.widget.FloatingActionButton;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.TextView;
 
 
@@ -24,6 +30,7 @@ import osmi.todo.helper.TodoPojo;
 import osmi.todo.helper.TodoPojoOutPut;
 import osmi.todo.helper.TodoPojoParams;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -42,7 +49,7 @@ public class TodoListActivity extends AppCompatActivity {
      * device.
      */
     private boolean mTwoPane;
-    View recyclerView;
+    RecyclerView recyclerView;
     private boolean isOnline = true;
 //    TodoAsyncHelper todoAsyncHelperGetAll;
     TodoDbHelperAsync todoDbHelperAsync;
@@ -72,7 +79,7 @@ public class TodoListActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView = findViewById(R.id.todo_list);
+        recyclerView = (RecyclerView) findViewById(R.id.todo_list);
 //        assert recyclerView != null;
 //        setupRecyclerView((RecyclerView) recyclerView);
 
@@ -88,6 +95,37 @@ public class TodoListActivity extends AppCompatActivity {
 
 //        TodoPojoParams todoPojoParams = new TodoPojoParams();
 //        todoAsyncHelperGetAll.execute(todoPojoParams);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.item_sort_date:
+//                recyclerView
+//                int list = 0;
+//                ArrayAdapter adapter = new ArrayAdapter<String>(this,
+//                        android.R.layout.simple_list_item_1, list);
+                List<TodoEntity> response = new ArrayList<>();
+                TodoListViewAdapter adapter = new TodoListViewAdapter(response);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                return true;
+            case R.id.item_sort_fav:
+                response = todoDbHelperAsync.getAll();
+                adapter = new TodoListViewAdapter(response);
+                recyclerView.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -164,15 +202,26 @@ public class TodoListActivity extends AppCompatActivity {
             holder.view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-//                    TodoPojoParams todoPojoParams = new TodoPojoParams();
-//                    todoPojoParams.deleteTodoEntity = holder.todoEntity;
-//                    AsyncTask<TodoPojoParams, Void, TodoPojoOutPut> execute = todoAsyncHelperDelete.execute(todoPojoParams);
                     boolean delete = todoDbHelperAsync.delete(holder.todoEntity);
                     if(delete) {
                         todos.remove(position);
                         notifyDataSetChanged();
                     }
                     return delete;
+                }
+            });
+            holder.solvedCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    holder.todoEntity.setSolved(isChecked);
+                    holder.todoEntity = todoDbHelperAsync.update(holder.todoEntity);
+                }
+            });
+            holder.favCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    holder.todoEntity.setFav(isChecked);
+                    holder.todoEntity = todoDbHelperAsync.update(holder.todoEntity);
                 }
             });
         }

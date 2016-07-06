@@ -188,8 +188,10 @@ public class RemoteHelper {
         InputStream is = null;
         OutputStream os = null;
         try {
+            int itemId = item.getId();
             // obtain a http url connection from the base url
-            con = (HttpURLConnection) (new URL(baseUrl))
+            con = (HttpURLConnection) (new URL(baseUrl + "/"
+                    + itemId))
                     .openConnection();
             Log.d(logger, "updateItem(): got connection: " + con);
             // set the request method
@@ -200,6 +202,7 @@ public class RemoteHelper {
             // obtain the output stream and write the item as json object to it
             os = con.getOutputStream();
             os.write(createJsonStringFromDataItem(item).getBytes());
+            os.close();
             // then initiate sending the request...
             is = con.getInputStream();
             // check the response code

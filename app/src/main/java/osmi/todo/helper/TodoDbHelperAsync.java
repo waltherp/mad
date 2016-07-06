@@ -74,7 +74,6 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
                     return remoteHelper.createDataItem(params[0]);
                 }
             }.execute(todoEntity);
-//            remoteHelper.createDataItem(todoEntity);
         }
 
         return todoEntity;
@@ -91,12 +90,6 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
         if(id == -1) return null;
         todoEntity.setId((int) id);
         return todoEntity;
-
-//        SQLiteDatabase db = this.getWritableDatabase();
-//        ContentValues contentValues = getContentValues(todoEntity);
-//        long id = db.insert(TABLE_NAME, null, contentValues);
-//        if(id == -1) return null;
-//        todoEntity.setId((int) id);
     }
 
     @NonNull
@@ -132,7 +125,6 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
                 }
 
             }.execute(id);
-//            remoteHelper.deleteDataItem(id);
         }
 
         return delete;
@@ -160,7 +152,6 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
                     return remoteHelper.updateDataItem(params[0]);
                 }
             }.execute(todoEntity);
-//            remoteHelper.updateDataItem(todoEntity);
         }
 
         return todoEntity;
@@ -197,9 +188,6 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
                     createLocal(todoEntity);
                 }
             }.execute(id);
-//            TodoEntity todoEntity = remoteHelper.readDataItem(id);
-//            createLocal(todoEntity);
-//            return todoEntity;
         }
 
         return getByIdLocal(id);
@@ -240,20 +228,12 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
 
                 @Override
                 protected void onPostExecute(List<TodoEntity> todoEntities) {
-//                    createLocal(todoEntity);
                     for (TodoEntity todoEntity:
                             todoEntities) {
                         createLocal(todoEntity);
                     }
                 }
             }.execute();
-
-//            List<TodoEntity> todoEntities = remoteHelper.readAllDataItems();
-//            for (TodoEntity todoEntity:
-//                    todoEntities) {
-//                createLocal(todoEntity);
-//            }
-//            return todoEntities;
         }
         return getAllLocal();
     }
@@ -287,7 +267,6 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
 
                 @Override
                 protected TodoPojo doInBackground(Void... params) {
-//                    remoteHelper.deleteDataItem(0);
                     List<TodoEntity> result = new ArrayList<>();
                     List<TodoEntity> allLocal = getAllLocal();
                     List<TodoEntity> todoEntities = remoteHelper.readAllDataItems();
@@ -299,7 +278,11 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
                         for (TodoEntity todoEntity:
                                 allLocal) {
                             TodoEntity dataItem = remoteHelper.createDataItem(todoEntity);
-                            result.add(dataItem);
+                            if(dataItem != null) {
+                                result.add(dataItem);
+                            } else {
+                                result.add(todoEntity);
+                            }
                         }
                     } else {
                         for (TodoEntity todoEntity:
@@ -321,24 +304,6 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
                 }
             }.execute();
         }
-
-//        List<TodoEntity> allLocal = getAllLocal();
-//        List<TodoEntity> todoEntities = remoteHelper.readAllDataItems();
-//        if(allLocal != null && allLocal.size() > 0) {
-//            for (TodoEntity todoEntity:
-//                 todoEntities) {
-//                remoteHelper.deleteDataItem(todoEntity.getId());
-//            }
-//            for (TodoEntity todoEntity:
-//                    allLocal) {
-//                remoteHelper.createDataItem(todoEntity);
-//            }
-//        } else {
-//            for (TodoEntity todoEntity:
-//                    todoEntities) {
-//                createLocal(todoEntity);
-//            }
-//        }
     }
 
 }

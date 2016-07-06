@@ -20,4 +20,6 @@
     <string name="todoSolvedLabelText">Erledigt</string>
     <string name="todoFavLabelText">Favorit</string>
     <string name="todoFinalDateLabelText">Fällig</string>
+    <string name="item_sort_title_date">Sort Date</string>
+    <string name="item_sort_title_fav">Sort Fav</string>
 </resources>

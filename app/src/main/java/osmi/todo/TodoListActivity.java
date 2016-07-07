@@ -80,8 +80,6 @@ public class TodoListActivity extends AppCompatActivity {
         });
 
         recyclerView = (RecyclerView) findViewById(R.id.todo_list);
-//        assert recyclerView != null;
-//        setupRecyclerView((RecyclerView) recyclerView);
 
         if (findViewById(R.id.todo_detail_container) != null) {
             // The detail container view will be present only in the
@@ -92,9 +90,6 @@ public class TodoListActivity extends AppCompatActivity {
         }
 
         todoDbHelperAsync.sync();
-
-//        TodoPojoParams todoPojoParams = new TodoPojoParams();
-//        todoAsyncHelperGetAll.execute(todoPojoParams);
     }
 
     @Override
@@ -108,17 +103,13 @@ public class TodoListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.item_sort_date:
-//                recyclerView
-//                int list = 0;
-//                ArrayAdapter adapter = new ArrayAdapter<String>(this,
-//                        android.R.layout.simple_list_item_1, list);
-                List<TodoEntity> response = new ArrayList<>();
+                List<TodoEntity> response = todoDbHelperAsync.getAllLocalWithSortBy(TodoDbHelperAsync.COL_FINALDATE);
                 TodoListViewAdapter adapter = new TodoListViewAdapter(response);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
                 return true;
             case R.id.item_sort_fav:
-                response = todoDbHelperAsync.getAll();
+                response = todoDbHelperAsync.getAllLocalWithSortBy(TodoDbHelperAsync.COL_FAV);
                 adapter = new TodoListViewAdapter(response);
                 recyclerView.setAdapter(adapter);
                 adapter.notifyDataSetChanged();

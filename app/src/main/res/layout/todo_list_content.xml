@@ -6,31 +6,55 @@
     android:weightSum="1">
 
     <TextView
+        android:id="@+id/todoTitleList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/todoListItemTitle"
+        android:textAppearance="?attr/textAppearanceListItem"
+        style="@style/Base.TextAppearance.AppCompat.Headline" />
+
+    <TextView
         android:id="@+id/todoNameList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_marginLeft="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <TextView
         android:id="@+id/todoFinalDateList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_marginLeft="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+    <TextView
+        android:id="@+id/todoListItemSolvedTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/todoListItemSolvedTitle"
+        android:layout_marginLeft="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <CheckBox
         android:id="@+id/todoSolvedList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_marginLeft="@dimen/text_margin"
+        android:textAppearance="?attr/textAppearanceListItem" />
+
+    <TextView
+        android:id="@+id/todoListItemFavTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/todoListItemFavTitle"
+        android:layout_marginLeft="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
     <CheckBox
         android:id="@+id/todoFavList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
+        android:layout_marginLeft="@dimen/text_margin"
         android:textAppearance="?attr/textAppearanceListItem" />
 
 </LinearLayout>

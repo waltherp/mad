@@ -1,7 +1,12 @@
 package osmi.todo;
 
+import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -12,6 +17,7 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import osmi.todo.entities.TodoEntity;
@@ -103,8 +109,73 @@ public class TodoDetailActivity extends AppCompatActivity {
             todoDbHelperAsync.delete(todoEntity);
             navigateUpTo(new Intent(this, TodoListActivity.class));
             return true;
+        } else if (id == R.id.item_contacts) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getActivity());
+
+            Cursor contactCursor = getContactCursor(getContentResolver(), null);
+            String[] items = getNames();
+            boolean[] checkedItems = new boolean[items.length];
+            builder
+                    .setTitle("Contacts")
+                    .setMultiChoiceItems(items, checkedItems,
+                            new DialogInterface.OnMultiChoiceClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which,
+                                                    boolean isChecked) {
+                                }
+                            })
+                    .setPositiveButton("Done", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    })
+                    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                        }
+                    });
+
+            AlertDialog dialog = builder.create();
+            dialog.show();
+            return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private String[] getNames() {
+        List<String> result = new ArrayList<>();
+        ContentResolver cr = getContentResolver();
+        Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI,
+                null, null, null, null);
+
+        if (cur.getCount() > 0) {
+            while (cur.moveToNext()) {
+                String id = cur.getString(
+                        cur.getColumnIndex(ContactsContract.Contacts._ID));
+                String name = cur.getString(cur.getColumnIndex(
+                        ContactsContract.Contacts.DISPLAY_NAME));
+                result.add(name);
+            }
+        }
+        String[] names = new String[result.size()];
+        return result.toArray(names);
+    }
+
+    public Cursor getContactCursor(ContentResolver contactHelper, String startsWith) {
+        String[] projection = { ContactsContract.CommonDataKinds.Phone._ID, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME, ContactsContract.CommonDataKinds.Phone.NUMBER };
+        Cursor cur = null;
+        try {
+            if (startsWith != null && !startsWith.equals("")) {
+                cur = contactHelper.query (ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " like \"" + startsWith + "%\"", null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+            } else {
+                cur = contactHelper.query (ContactsContract.CommonDataKinds.Phone.CONTENT_URI, projection, null, null, ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME + " ASC");
+            }
+            cur.moveToFirst();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+        return cur;
     }
 
     @Override

@@ -26,4 +26,5 @@
     <string name="todoListItemFavTitle">Fav</string>
     <string name="todoListItemSolvedTitle">Solved</string>
     <string name="item_delete">Delete</string>
+    <string name="item_contacts">Contacts</string>
 </resources>

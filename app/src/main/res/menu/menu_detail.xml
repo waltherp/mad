@@ -3,4 +3,7 @@
     <item android:id="@+id/item_delete"
         android:title="@string/item_delete"
         android:icon="@android:drawable/ic_dialog_dialer"/>
+    <item android:id="@+id/item_contacts"
+        android:title="@string/item_contacts"
+        android:icon="@android:drawable/ic_dialog_dialer"/>
 </menu>

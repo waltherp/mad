@@ -288,6 +288,14 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
                         for (TodoEntity todoEntity:
                                 todoEntities) {
                             TodoEntity local = createLocal(todoEntity);
+                            if(local == null) {
+                                int todoEntityId = todoEntity.getId();
+                                if(todoEntityId != 0) {
+                                    todoEntity.setId(0);
+                                }
+                                local = createLocal(todoEntity);
+                            }
+                            if(local == null) continue;
                             result.add(local);
                         }
                     }

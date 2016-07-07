@@ -238,10 +238,17 @@ public class TodoDbHelperAsync extends SQLiteOpenHelper {
         return getAllLocal();
     }
 
-    private List<TodoEntity> getAllLocal() {
+    public List<TodoEntity> getAllLocal() {
+        String sortedColumn = COL_FAV;
+        return getAllLocalWithSortBy(sortedColumn);
+    }
+
+    @NonNull
+    public List<TodoEntity> getAllLocalWithSortBy(String sortedColumn) {
         List<TodoEntity> list = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        String selectQuery = "SELECT * FROM " + TABLE_NAME;
+        String oppositeColumn = sortedColumn.equals(COL_FAV) ? COL_FINALDATE : COL_FAV;
+        String selectQuery = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + COL_SOLVED + ", " + sortedColumn + ", " + oppositeColumn;
         Cursor cursor = db.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
